@@ -15,14 +15,10 @@ jobs:
       - name: Initialize .NET Environment
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0'
-
-      - name: Place Configuration File
-        run: cp appsettings.json FeedCord/appsettings.json
+          dotnet-version: '9.0' # Updated to match your project build configuration log
 
       - name: Install System Dependencies
         run: dotnet restore FeedCord/FeedCord.csproj
 
       - name: Run Feed Reader App
-        run: cd FeedCord && dotnet run --project FeedCord.csproj appsettings.json
-
+        run: dotnet run --project FeedCord/FeedCord.csproj -- $GITHUB_WORKSPACE/appsettings.json
