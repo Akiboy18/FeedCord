@@ -1,0 +1,24 @@
+name: Execute Daily RF News Feed
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Fires automatically every hour
+  workflow_dispatch: # Allows you to manually trigger it for testing
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Initialize .NET Environment
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0'
+
+      - name: Install System Dependencies
+        run: dotnet restore FeedCord/FeedCord.csproj
+
+      - name: Run Feed Reader App
+        run: dotnet run --project FeedCord/FeedCord.csproj appsettings.json
