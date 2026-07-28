@@ -2,8 +2,8 @@ name: Execute Daily RF News Feed
 
 on:
   schedule:
-    - cron: '0 * * * *' # Fires automatically every hour
-  workflow_dispatch: # Allows you to manually trigger it for testing
+    - cron: '0 * * * *'
+  workflow_dispatch:
 
 jobs:
   run-bot:
@@ -17,8 +17,12 @@ jobs:
         with:
           dotnet-version: '8.0'
 
+      - name: Place Configuration File
+        run: cp appsettings.json FeedCord/appsettings.json
+
       - name: Install System Dependencies
         run: dotnet restore FeedCord/FeedCord.csproj
 
       - name: Run Feed Reader App
-        run: dotnet run --project FeedCord/FeedCord.csproj appsettings.json
+        run: cd FeedCord && dotnet run --project FeedCord.csproj appsettings.json
+
